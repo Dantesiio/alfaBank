@@ -2,7 +2,6 @@ package com.example.finanzas;
 
 import com.example.finanzas.model.Register;
 import com.example.finanzas.model.RegisterList;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -49,42 +48,54 @@ public class finanzas implements Initializable {
     @FXML
     private TableView<Register> tabla;
 
-    private ObservableList<Register> gastos = FXCollections.observableArrayList();
-    private ObservableList<Register> ingresos = FXCollections.observableArrayList();
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        tabla.setItems(gastos);
-        tabla.setItems(ingresos);
+        tabla.setItems(RegisterList.getInstance().getRegisters());
         amountTC.setCellValueFactory(new PropertyValueFactory<>("monto"));
         descripcionTC.setCellValueFactory(new PropertyValueFactory<>("descripcion"));
         dateTC.setCellValueFactory(new PropertyValueFactory<>("fecha"));
-        tabla.setItems(RegisterList.getInstance().getRegisters());
         tabla.getSortOrder().add(dateTC);
         dateTC.setSortType(TableColumn.SortType.DESCENDING);
         balanceLBL.setText(String.valueOf(RegisterList.getInstance().calculate()));
         registBT.setOnAction(action -> {
-
             helloApplication.openWindow("register-view.fxml");
+        });
+        gastosBT.setOnAction(action -> {
+            tabla.setItems(RegisterList.getInstance().getGastos());
+            tabla.getSortOrder().add(amountTC);
+            dateTC.setSortType(TableColumn.SortType.DESCENDING);
+        });
+
+        ingresosBT.setOnAction(action -> {
+            tabla.setItems(RegisterList.getInstance().getIngresos());
+            tabla.getSortOrder().add(amountTC);
+            dateTC.setSortType(TableColumn.SortType.DESCENDING);
+        });
+
+        ambosBT.setOnAction(action -> {
+            tabla.setItems(RegisterList.getInstance().getRegisters());
+            tabla.getSortOrder().add(amountTC);
+            dateTC.setSortType(TableColumn.SortType.DESCENDING);
         });
     }
 
     public void agregarGasto(Register registro) {
-        gastos.add(registro);
+        RegisterList.getInstance().getGastos().add(registro);
     }
 
     public void agregarIngreso(Register registro) {
-        ingresos.add(registro);
+        RegisterList.getInstance().getIngresos().add(registro);
     }
 
     public void addTransaction(Register transaction) {
         if (transaction.getTipo().equals("Egreso")) {
-            Register registro = new Register(-1 * transaction.getMonto(), transaction.getDescripcion(), "Egreso", new  Date());
+            Register registro = new Register(-1 * transaction.getMonto(), transaction.getDescripcion(), "Egreso", new Date());
             agregarGasto(registro);
         } else {
             Register registro = new Register(transaction.getMonto(), transaction.getDescripcion(), "Ingreso", new Date());
             agregarIngreso(registro);
         }
     }
-
 }
+
+
