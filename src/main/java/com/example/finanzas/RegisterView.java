@@ -43,7 +43,7 @@ public class RegisterView {
 
     @FXML
     public void initialize() {
-        ObservableList<String> options = FXCollections.observableArrayList("Gasto", "Egreso");
+        ObservableList<String> options = FXCollections.observableArrayList("Ingreso", "Egreso");
         tipoCHOISE.setItems(options);
         tipoCHOISE.setPromptText("Seleccione el tipo");
     }
@@ -54,12 +54,12 @@ public class RegisterView {
             double value = parseInt(montoTF.getText());
             String type = tipoCHOISE.getValue();
             String desc = descriptionTF.getText();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
             String dstr  = dateTF.getText();
             Date date = sdf.parse(dstr);
             System.out.println(date);
             if (date != null) {
-                Register registro= new Register(value, type, desc, date);
+                Register registro= new Register(value, desc, type, date);
                 if (registro != null) {
                     RegisterList.getInstance().getRegisters().add(registro);
                 }

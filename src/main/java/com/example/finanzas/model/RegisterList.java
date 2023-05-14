@@ -3,17 +3,17 @@ package com.example.finanzas.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-public class RegisterList<T> {
+public class RegisterList {
 
     //Globales
-    private ObservableList<T> registers = (ObservableList<T>) FXCollections.observableArrayList().sorted();
+    private ObservableList<Register> registers = FXCollections.observableArrayList();
 
     //Constructor privado
-    public ObservableList<T> getRegisters() {
+    public ObservableList<Register> getRegisters() {
         return registers;
     }
 
-    public void setRegisters(ObservableList<T> contacts) {
+    public void setRegisters(ObservableList<Register> contacts) {
         this.registers = contacts;
     }
 
@@ -28,5 +28,13 @@ public class RegisterList<T> {
             instance = new RegisterList();
         }
         return instance;
+    }
+    public double calculate(){
+        int count=0;
+        for(int i=0;i<registers.size();i++){
+            count +=registers.get(i).getMonto();
+        }
+        return count;
+
     }
 }
