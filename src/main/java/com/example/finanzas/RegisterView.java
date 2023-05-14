@@ -10,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,6 +23,10 @@ public class RegisterView {
 
     @FXML
     private Button addBT;
+
+
+    @FXML
+    private Button closeBT;
 
     @FXML
     private TextField dateTF;
@@ -46,13 +51,21 @@ public class RegisterView {
         ObservableList<String> options = FXCollections.observableArrayList("Ingreso", "Egreso");
         tipoCHOISE.setItems(options);
         tipoCHOISE.setPromptText("Seleccione el tipo");
+        closeBT.setOnAction(action -> {
+            Stage stage=(Stage)this.closeBT.getScene().getWindow();
+            stage.close();
+            HelloApplication.openWindow("finanzas.fxml");
+        });
     }
 
     @FXML
     void register(ActionEvent event) {
         try {
-            double value = parseInt(montoTF.getText());
+            double value = Double.parseDouble(montoTF.getText());
             String type = tipoCHOISE.getValue();
+            if(type.equals("Egreso")){
+                value=-1*value;
+            }
             String desc = descriptionTF.getText();
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
             String dstr  = dateTF.getText();
@@ -62,6 +75,15 @@ public class RegisterView {
                 Register registro= new Register(value, desc, type, date);
                 if (registro != null) {
                     RegisterList.getInstance().getRegisters().add(registro);
+                    String option= tipoCHOISE.getValue();
+                    if (option.equals("Egreso")) {
+                        RegisterList.getInstance().agregarGasto(registro);
+                    } else if (option.equals("Ingreso")){
+                        RegisterList.getInstance().agregarIngreso(registro);
+                    }
+                    else {
+                        //no hacer nada
+                    }
                 }
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Exito");
@@ -86,6 +108,7 @@ public class RegisterView {
             alert.showAndWait();
             e.printStackTrace();
         }
+
     }
 
 

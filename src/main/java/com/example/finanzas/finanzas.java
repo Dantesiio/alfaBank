@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -57,7 +58,10 @@ public class finanzas implements Initializable {
         tabla.getSortOrder().add(dateTC);
         dateTC.setSortType(TableColumn.SortType.DESCENDING);
         balanceLBL.setText(String.valueOf(RegisterList.getInstance().calculate()));
+        System.out.println(String.valueOf(RegisterList.getInstance().calculate()));
         registBT.setOnAction(action -> {
+            Stage stage=(Stage)this.registBT.getScene().getWindow();
+            stage.close();
             helloApplication.openWindow("register-view.fxml");
         });
         gastosBT.setOnAction(action -> {

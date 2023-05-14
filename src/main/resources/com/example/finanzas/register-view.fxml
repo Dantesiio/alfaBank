@@ -25,5 +25,6 @@
       <Label layoutX="78.0" layoutY="80.0" />
       <Label layoutX="78.0" layoutY="80.0" text="Monto" />
       <Button fx:id="addBT" layoutX="128.0" layoutY="416.0" mnemonicParsing="false" onAction="#register" prefHeight="41.0" prefWidth="78.0" text="Añadir" />
+      <Button fx:id="closeBT" layoutX="268.0" layoutY="47.0" mnemonicParsing="false" text="Close" />
    </children>
 </AnchorPane>

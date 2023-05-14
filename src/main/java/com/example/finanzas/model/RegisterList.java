@@ -62,13 +62,4 @@ public class RegisterList {
         ingresos.add(registro);
     }
 
-    public void addTransaction(Register transaction) {
-        if (transaction.getTipo().equals("Egreso")) {
-            Register registro = new Register(-1 * transaction.getMonto(), transaction.getDescripcion(), "Egreso", new Date());
-            agregarGasto(registro);
-        } else {
-            Register registro = new Register(transaction.getMonto(), transaction.getDescripcion(), "Ingreso", new Date());
-            agregarIngreso(registro);
-        }
-    }
 }
